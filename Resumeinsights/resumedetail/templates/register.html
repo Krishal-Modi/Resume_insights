@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/logreg.css">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="container">
+        <h2>Register</h2>
+        <form action="#" method="POST" id="registrationForm">
+            <div class="form-group">
+                <label for="username">Name</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date Of Birth</label>
+                <input type="date" id="dob" name="birthday" required>
+            </div>
+            <div class="login_redirect">
+                <a class="back_to_login" href="/login/">
+                    <img src="/static/images/up-arrow.png" alt="Back to Login" class="eye" width="20px" height="15px">
+                    Back To Login
+                </a>
+            </div>
+            <button type="submit" class="btn">Register</button>
+            <hr id="partition">
+            <div class="google-signup">
+                <button type="button" class="btn google-btn">
+                    <img src="/static/images/google.png" alt="Google Logo" class="google-logo">
+                    Sign Up with Google
+                </button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

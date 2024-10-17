@@ -1,0 +1,102 @@
+body {
+    background-image: url("/static/images/background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navigation Bar */
+.navbar {
+    background-color: rgba(4, 13, 32, 0.8);
+}
+
+.navbar-toggler {
+    border: none; /* Remove border */
+}
+
+.navbar-toggler-icon {
+    background-color: transparent; /* Change hamburger icon to white */
+}
+
+.nav-link {
+    position: relative; /* Needed for the hover effect */
+    text-decoration: none; /* Remove default underline */
+    color: white; /* Keep text color white */
+    padding: 0.5rem 1rem; /* Adjust padding for better click area */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.nav-link:hover {
+    color: grey; /* Change text color to grey on hover */
+}
+
+.nav-link.active {
+    color: grey; /* Change text color to grey for active link */
+}
+
+/* Dropdown items */
+.dropdown-item {
+    position: relative; /* Needed for the hover effect */
+    text-decoration: none; /* Remove default underline */
+    background-color: transparent !important; /* Force background to be transparent */
+    color: white; /* Keep the text color white */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.dropdown-item:hover {
+    background-color: transparent !important; /* Ensure no background on hover */
+    color: grey !important; /* Change text color to grey on hover */
+}
+
+.navbar-nav {
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    width: 100%; /* Ensure the navbar takes full width */
+}
+
+.nav-item {
+    margin: 0 15px; /* Add some horizontal spacing between items */
+}
+
+/* Content Section */
+.container {
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    padding: 50px; /* Padding around the content */
+    border-radius: 10px; /* Rounded corners */
+    margin-top: 20px; /* Space above the content */
+    height: 400px; /* Set a height for the content */
+}
+
+h2 {
+    margin-bottom: 20px; /* Space below the heading */
+    color: white; /* Heading color */
+    font-size: 3rem; /* Larger font size for heading */
+}
+
+p {
+    font-size: 18px; /* Font size for text */
+    color: lightgrey; /* Paragraph color */
+    line-height: 1.5; /* Increase line height for better readability */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        height: auto; /* Let height adjust on smaller screens */
+        padding: 30px; /* Reduce padding */
+    }
+
+    h2 {
+        font-size: 1.5rem; /* Smaller heading on mobile */
+    }
+
+    p {
+        font-size: 16px; /* Smaller text on mobile */
+    }
+}
+
+
