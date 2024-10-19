@@ -2,7 +2,7 @@
 URL configuration for Resumeinsights project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
+    https://docs.djangoproject.com/en/5.1/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -16,8 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from resumedetail.views import *
-
+from resumedetails.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,7 +25,11 @@ urlpatterns = [
 
     path('index/', index, name='index'),
 
-    path('login/', login, name='login'),
+    path('login/', user_login, name='login'),
 
     path('register/', register, name='register'),
+
+    path('logout/', user_logout, name='logout'),
+
+    path('ats/', ats, name='ats'),
 ]
