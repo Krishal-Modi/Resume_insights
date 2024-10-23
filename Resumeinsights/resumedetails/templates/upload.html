@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Resume</title>
+</head>
+<body>
+    <h2>Upload Your Resume for ATS Analysis</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="file" accept=".pdf" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if url %}
+        <p>Uploaded File: <a href="{{ url }}" target="_blank">{{ name }}</a></p>
+        <p>File Extension: {{ extension }}</p>
+    {% endif %}
+</body>
+</html>

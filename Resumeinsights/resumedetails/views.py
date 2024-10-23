@@ -65,5 +65,88 @@ def user_logout(request):
     return redirect('index')
 
 
-def ats(request):
-    return render(request, 'ats.html')
+from django.shortcuts import render, redirect
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.views.decorators.clickjacking import xframe_options_exempt
+import os
+from pathlib import Path
+import urllib.parse
+from django.http import HttpResponseRedirect
+import PyPDF2
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Helper function to get file extension
+def get_file_extension(file_name):
+    return os.path.splitext(file_name)[1].lower()
+
+# View to handle file upload
+@xframe_options_exempt
+def upload_resume(request):
+    context = {}
+    if request.method == 'POST' and 'file' in request.FILES:
+        uploaded_file = request.FILES['file']
+        fs = FileSystemStorage()
+        name = fs.save(uploaded_file.name, uploaded_file)
+        url = fs.url(name)
+
+        file_extension = get_file_extension(name)
+        os.chmod(os.path.join(settings.MEDIA_ROOT, name), 0o777)
+        
+        # Store file details in session for ATS analysis
+        request.session['url'] = url
+        request.session['name'] = name
+
+        # Redirect to ATS analyzer after successful upload
+        return redirect('analyzer')  # Redirect to the analyzer view
+    
+    return render(request, 'upload.html', context)
+
+# Function to check if the uploaded resume is ATS-friendly
+def is_ats_friendly(url, name):
+    absolute_url = os.path.join(settings.MEDIA_ROOT, name)
+    keyword = ['skills', 'education', 'certifications', 'experience', 'projects', 'awards', 'linkedin']
+    missing = []
+    rating = 0
+    text_content = ""
+
+    # Extract text from PDF using PyPDF2
+    pdf_reader = PyPDF2.PdfReader(absolute_url)
+    for page_num in range(len(pdf_reader.pages)):
+        page = pdf_reader.pages[page_num]
+        text_content += page.extract_text()
+
+    # Lowercase the text to perform case-insensitive search
+    text_content = text_content.lower()
+
+    # Check for each keyword in the resume
+    for i in keyword:
+        if i in text_content:
+            rating += 1
+        else:
+            missing.append(i)
+
+    return rating, missing
+
+# View to handle ATS analysis and show results
+def analyzer(request):
+    # Retrieve stored file details from session
+    url = urllib.parse.unquote(request.session.get('url'))
+    name = request.session.get('name')
+
+    # Perform ATS analysis
+    rating, missing = is_ats_friendly(url, name)
+
+    # Prepare context for result display
+    context = {
+        'url': request.session.get('url'),
+        'rating': rating,
+        'missing': missing
+    }
+    
+    return render(request, 'ats.html', context)  # Render ATS result page
+
+# About page view (optional)
+def about(request):
+    return render(request, 'about.html')

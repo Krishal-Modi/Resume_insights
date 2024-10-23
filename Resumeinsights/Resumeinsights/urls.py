@@ -31,5 +31,6 @@ urlpatterns = [
 
     path('logout/', user_logout, name='logout'),
 
-    path('ats/', ats, name='ats'),
+    path('upload/', upload_resume, name='upload_resume'),
+    path('analyze/', analyzer, name='analyzer'),
 ]
