@@ -106,7 +106,7 @@ def upload_resume(request):
 # Function to check if the uploaded resume is ATS-friendly
 def is_ats_friendly(url, name):
     absolute_url = os.path.join(settings.MEDIA_ROOT, name)
-    keyword = ['skills', 'education', 'certifications', 'experience', 'projects', 'awards', 'linkedin']
+    keyword = ['skills', 'education', 'certifications', 'experience', 'projects', 'awards', 'linkedin', 'languages']
     missing = []
     rating = 0
     text_content = ""
@@ -123,11 +123,12 @@ def is_ats_friendly(url, name):
     # Check for each keyword in the resume
     for i in keyword:
         if i in text_content:
-            rating += 1
+            rating += 10
         else:
             missing.append(i)
 
     return rating, missing
+
 
 # View to handle ATS analysis and show results
 def analyzer(request):
