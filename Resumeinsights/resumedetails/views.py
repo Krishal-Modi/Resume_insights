@@ -129,7 +129,6 @@ def is_ats_friendly(url, name):
 
     return rating, missing
 
-
 # View to handle ATS analysis and show results
 def analyzer(request):
     # Retrieve stored file details from session
