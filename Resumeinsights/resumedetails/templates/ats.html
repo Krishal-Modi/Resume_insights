@@ -30,23 +30,43 @@
             margin-right: auto;
             text-align: center;
         }
+
+        .ats-container h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }   
+
+        .ats-container h3 {
+            font-size: 2rem;
+            margin-top: 20px;
+        }
+
+        .ats-container p {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+
         h2, h3, p {
             color: #dcdcdc;
-        }
+        }   
+
         .missing-keywords-list {
             text-align: left;
+            margin-top: 20px;
         }
+
         .missing-keywords-list li {
             color: #ffcccc;
         }
+
         a {
             color: #00E7ED;
             text-decoration: none;
         }
         a:hover {
             color: #009acd;
-            text-decoration: underline;
         }
+
         .calculate-score-btn {
             width: 40%;
             padding: 15px 0;
@@ -59,9 +79,32 @@
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
+
         .calculate-score-btn:hover {
             background-color: #00E7ED;
             transform: scale(1.05);
+        }
+
+        /* Transparent container for the "Need to work on" section */
+        .transparent-container {
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .transparent-container h3, .transparent-container ul {
+            color: #dcdcdc; /* Light color for readability */
+        }
+
+        .missing-keywords-list {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .missing-keywords-list li {
+            color: #ffcccc; /* Light red for missing items */
         }
     </style>
 </head>
@@ -120,14 +163,16 @@
         <p>Resume URL: <a href="{{ url }}" target="_blank">{{ url }}</a></p>
         <p>ATS Compatibility Score: {{ rating }}/80</p>
 
-        <h3>Missing Keywords:</h3>
-        <ul class="missing-keywords-list">
-            {% for item in missing %}
-                <li>{{ item }}</li>
-            {% empty %}
-                <li>None</li>
-            {% endfor %}
-        </ul>
+        <h3 class="things">Need to work on:</h3>
+        <div class="transparent-container">
+            <ul class="missing-keywords-list">
+                {% for item in missing %}
+                    <li>{{ item }} section</li>
+                {% empty %}
+                    <li>None</li>
+                {% endfor %}
+            </ul>
+        </div>
         
         <div class="calculate-score-section">
             <a href="/upload/">

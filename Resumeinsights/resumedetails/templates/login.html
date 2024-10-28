@@ -111,12 +111,35 @@
             display: block;
             text-align: right;
         }
+
+        .message {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            color: #00E7ED; /* Bright blue for success */
+        }
+
+        .message.error {
+            color: red; /* Red for errors */
+        }
     </style>
 </head>
 <body>
     
     <div class="container">
         <h2>Login</h2>
+
+        {% if messages %}
+            <div id="message">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <form action="#" method="POST" id="loginForm">
             {% csrf_token %}
             <div class="form-group">

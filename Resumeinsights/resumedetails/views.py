@@ -1,11 +1,18 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from .models import Admin
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.views.decorators.clickjacking import xframe_options_exempt
+import os
+from pathlib import Path
+import urllib.parse
+import PyPDF2
 # Create your views here.
 
 def home(request):
@@ -65,21 +72,16 @@ def user_logout(request):
     return redirect('index')
 
 
-from django.shortcuts import render, redirect
-from django.conf import settings
-from django.core.files.storage import FileSystemStorage
-from django.views.decorators.clickjacking import xframe_options_exempt
-import os
-from pathlib import Path
-import urllib.parse
-from django.http import HttpResponseRedirect
-import PyPDF2
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # Helper function to get file extension
 def get_file_extension(file_name):
     return os.path.splitext(file_name)[1].lower()
+
+
 
 # View to handle file upload
 @xframe_options_exempt
@@ -87,12 +89,14 @@ def upload_resume(request):
     context = {}
     if request.method == 'POST' and 'file' in request.FILES:
         uploaded_file = request.FILES['file']
-        fs = FileSystemStorage()
-        name = fs.save(uploaded_file.name, uploaded_file)
+        
+        # Set the location for the FileSystemStorage to the 'uploads' folder
+        fs = FileSystemStorage(location=os.path.join(settings.BASE_DIR, 'uploads'))  
+        name = fs.save(uploaded_file.name, uploaded_file)  # Save the file in 'uploads' folder
         url = fs.url(name)
 
         file_extension = get_file_extension(name)
-        os.chmod(os.path.join(settings.MEDIA_ROOT, name), 0o777)
+        os.chmod(os.path.join(settings.BASE_DIR, 'uploads', name), 0o777)  # Set permissions
         
         # Store file details in session for ATS analysis
         request.session['url'] = url
@@ -103,19 +107,24 @@ def upload_resume(request):
     
     return render(request, 'upload.html', context)
 
+
+
 # Function to check if the uploaded resume is ATS-friendly
 def is_ats_friendly(url, name):
-    absolute_url = os.path.join(settings.MEDIA_ROOT, name)
+    # Construct the full path to the file in the 'uploads' folder
+    absolute_url = os.path.join(settings.BASE_DIR, 'uploads', name)
+
     keyword = ['skills', 'education', 'certifications', 'experience', 'projects', 'awards', 'linkedin', 'languages']
     missing = []
     rating = 0
     text_content = ""
 
     # Extract text from PDF using PyPDF2
-    pdf_reader = PyPDF2.PdfReader(absolute_url)
-    for page_num in range(len(pdf_reader.pages)):
-        page = pdf_reader.pages[page_num]
-        text_content += page.extract_text()
+    with open(absolute_url, 'rb') as file:
+        pdf_reader = PyPDF2.PdfReader(file)
+        for page_num in range(len(pdf_reader.pages)):
+            page = pdf_reader.pages[page_num]
+            text_content += page.extract_text()
 
     # Lowercase the text to perform case-insensitive search
     text_content = text_content.lower()
@@ -128,6 +137,8 @@ def is_ats_friendly(url, name):
             missing.append(i)
 
     return rating, missing
+
+
 
 # View to handle ATS analysis and show results
 def analyzer(request):
@@ -146,7 +157,3 @@ def analyzer(request):
     }
     
     return render(request, 'ats.html', context)  # Render ATS result page
-
-# About page view (optional)
-def about(request):
-    return render(request, 'about.html')
