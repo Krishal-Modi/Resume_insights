@@ -23,6 +23,8 @@ urlpatterns = [
 
     path('', home, name='home'),
 
+    path('home/', home, name='home'),
+
     path('index/', index, name='index'),
 
     path('login/', user_login, name='login'),
@@ -32,5 +34,8 @@ urlpatterns = [
     path('logout/', user_logout, name='logout'),
 
     path('upload/', upload_resume, name='upload_resume'),
+    
     path('analyze/', analyzer, name='analyzer'),
+
+    path('payment/', payment, name='payment'),
 ]

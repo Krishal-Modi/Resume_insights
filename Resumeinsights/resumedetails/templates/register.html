@@ -52,6 +52,19 @@
                 </button>
             </div>
         </form>
+
+
+         <!-- Display a message about successful registration and email sent -->
+        {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == "success" %}
+                <div class="success-message">
+                    A confirmation email has been sent to your email address. Please check your inbox.
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
     </div>
 
 </body>

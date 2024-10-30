@@ -6,39 +6,225 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/images/logo.png" type="image/x-icon">
     <title>Resume Insights</title>
-    <link rel="stylesheet" href="/static/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <style>
         body {
-            background-image: url('/static/images/background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: white;
-            font-family: 'Arial', sans-serif;
-        }
+    background-image: url("/static/images/background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    font-family: 'Roboto', sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 2);
+    margin: 0;
+    padding: 0;
+}
+
+/* Navigation Bar */
+.navbar {
+    background-color: rgba(4, 13, 32, 0.8);
+}
+
+.navbar-toggler {
+    border: none; /* Remove border */
+}
+
+.navbar-toggler-icon {
+    background-color: transparent; /* Change hamburger icon to white */
+}
+
+.nav-link {
+    position: relative; /* Needed for the hover effect */
+    text-decoration: none; /* Remove default underline */
+    color: white; /* Keep text color white */
+    padding: 0.5rem 1rem; /* Adjust padding for better click area */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.nav-link:hover {
+    color: grey; /* Change text color to grey on hover */
+}
+
+.nav-link.active {
+    color: grey; /* Change text color to grey for active link */
+}
+
+/* Dropdown items */
+.dropdown-item {
+    position: relative; /* Needed for the hover effect */
+    text-decoration: none; /* Remove default underline */
+    background-color: transparent !important; /* Force background to be transparent */
+    color: white; /* Keep the text color white */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.dropdown-item:hover {
+    background-color: transparent !important; /* Ensure no background on hover */
+    color: grey !important; /* Change text color to grey on hover */
+}
+
+.navbar-nav {
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    width: 100%; /* Ensure the navbar takes full width */
+}
+
+.nav-item {
+    margin: 0 15px; /* Add some horizontal spacing between items */
+}
+
+
+
+
+/* Custom Modal Width */
+.modal-80w {
+    max-width: 80%; /* Set the maximum width of the modal to 80% of the viewport */
+}
+
+/* Container width inside the modal */
+.container-80w {
+    width: 100%; /* Ensure the container inside the modal takes the full width */
+}
+
+/* Custom Modal Styling */
+.modal-content {
+    background-color: rgba(10, 25, 50, 0.95); /* Matching the navbar color */
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Header Customization */
+.modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Plan Cards */
+.card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 15px;
+    margin-top: 15px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+.card-header {
+    background-color: rgba(10, 25, 50, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 1.7rem;
+    color: white;
+    font-weight: 500;
+}
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: white;
+}
+.card-text {
+    color: #d1d1d1;
+    font-size: 1rem;
+}
+
+/* Buttons */
+.btn-primary, .btn-success, .btn-warning {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.2s, transform 0.2s;
+}
+.btn-primary:hover, .btn-success:hover, .btn-warning:hover {
+    background-color: #4b6584;
+    transform: translateY(-3px);
+}
+
+/* Close Button */
+.btn-close {
+    background-color: #ffffff;
+    border-radius: 50%;
+    padding: 0.5rem;
+}
+
+/* Specific Button Styles */
+.btn-warning {
+    background-color: #ffc107; /* Use Bootstrap warning color or customize as needed */
+    border-color: #ffc107; /* Same color for border */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Use Bootstrap danger color or customize as needed */
+    border-color: #dc3545; /* Same color for border */
+}
+
+
+
+
+/* User Profile Dropdown */
+.user-profile-dropdown {
+    min-width: 200px; /* Adjust width as needed */
+    padding: 10px; /* Add padding for the dropdown */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+/* Profile Image Styling */
+.user-profile-dropdown img {
+    border-radius: 50%; /* Circular image */
+    padding: 2px 0px 2px 2px; /* Add some padding */
+}
+
+/* Text Color for User Info */
+.user-profile-dropdown h5,
+.user-profile-dropdown p {
+    color: #f0f0f0; /* Light text color */
+    padding: 5px 0; /* Add some vertical padding */
+}
+
+/* Button Styles in User Profile Dropdown */
+.user-profile-dropdown .btn {
+    width: 100%; /* Full width buttons */
+    margin-top: 5px; /* Space between buttons */
+}
+
+
         #upload-section {
             padding: 50px 0;
             text-align: center;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-top: 10%;
             margin-bottom: 80px;
+            background: rgba(10, 25, 50, 0.8);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+            width: 80%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
+
         .upload-header {
             margin-bottom: 30px;
-            font-size: 1.75rem;
+            font-size: 2rem;
             font-weight: bold;
-            color: #dcdcdc;
+            color: #00E7ED;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
         }
+
         .file-input-container {
             position: relative;
             display: inline-block;
             width: 80%;
             max-width: 600px;
         }
+
         .file-input {
             position: absolute;
             width: 100%;
@@ -47,6 +233,7 @@
             cursor: pointer;
             z-index: 10;
         }
+
         .file-input-label {
             display: inline-block;
             padding: 20px 40px;
@@ -58,15 +245,18 @@
             cursor: pointer;
             transition: background 0.3s ease, transform 0.3s ease;
         }
+
         .file-input-label:hover {
             background: linear-gradient(135deg, #009acd, #00E7ED);
             transform: scale(1.05);
         }
+
         .file-name {
             margin-top: 10px;
             font-size: 1.2rem;
             color: #dcdcdc;
         }
+
         .progress {
             margin-top: 20px;
             height: 15px;
@@ -75,17 +265,21 @@
             width: 80%;
             max-width: 600px;
             margin: 0 auto;
+            overflow: hidden;
         }
+
         .progress-bar {
             width: 0;
             background-color: #00E7ED;
             height: 100%;
             border-radius: 5px;
-            transition: width 2s ease-out;
+            transition: width 1s ease-out;
         }
+
         .calculate-score-section {
             margin-top: 40px;
         }
+
         .calculate-score-btn {
             width: 40%;
             padding: 15px 0;
@@ -98,21 +292,26 @@
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
+
         .calculate-score-btn:hover {
             background-color: #00E7ED;
             transform: scale(1.05);
         }
+
         .section-title {
-            color: #dcdcdc;
+            color: #00E7ED;
             text-align: center;
             margin-top: 20px;
             font-size: 2rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
         }
+
         @media (max-width: 768px) {
             .file-input-label {
                 padding: 15px 30px;
                 font-size: 16px;
             }
+
             .calculate-score-btn {
                 font-size: 1.25rem;
             }
@@ -122,52 +321,149 @@
 
 <body>
 
+    
     <!-- Navigation Bar -->   
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" style="margin-left:1%;" href="/index/">Resume Insights</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav justify-content-center">
-                    <li class="nav-item">
-                        <a class="nav-link active text-white" aria-current="page" href="/index/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="/ats/">ATS Score</a>
-                    </li>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" style="margin-left:1%;" href="/index/">Resume Insights</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active text-white" aria-current="page" href="/home/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/upload/">ATS Score</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        CV Samples
+                    </a>
+                    <ul class="dropdown-menu" style="background-color: rgba(10, 25, 50, 0.9);">
+                        <li><a class="dropdown-item text-white" href="#">Technical</a></li>
+                        <li><a class="dropdown-item text-white" href="#">Non Technical</a></li>
+                        <li><a class="dropdown-item text-white" href="#">Others</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#contact">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#" data-bs-toggle="modal" data-bs-target="#proCheckerModal">Pro Checker</a>
+                </li>
+                {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            CV Samples
+                            Hi, {{ user.username }}
                         </a>
-                        <ul class="dropdown-menu" style="background-color: rgba(10, 25, 50, 0.9);">
-                            <li><a class="dropdown-item text-white" href="#">Technical</a></li>
-                            <li><a class="dropdown-item text-white" href="#">Non Technical</a></li>
-                            <li><a class="dropdown-item text-white" href="#">Others</a></li>
-                        </ul>
+                        <div class="dropdown-menu user-profile-dropdown" style="background-color: rgba(10, 25, 50, 0.9);">
+                            <div class="text-center">
+                                <img src="/static/images/user.png" alt="Profile Logo" class="img-fluid mb-2" style="width: 50px; height: 50px;">
+                                <h5 class="text-light">{{ user.username }}</h5> <!-- Replace with dynamic user name -->
+                                <p class="text-light">{{ user.birth_date }}</p> <!-- Replace with dynamic date of birth -->
+                                <p class="text-light">{{ user.email }}</p> <!-- Replace with dynamic email -->
+                            </div>
+                            <div class="text-center mt-2">
+                                <a href="#" class="btn btn-warning">Forgot Password</a>
+                                <br>
+                                <a href="{% url 'logout' %}" class="btn btn-danger mt-2">Logout</a>
+                                <a href="#" class="btn btn-danger mt-2">Delete Account</a>
+                            </div>
+                        </div>
                     </li>
+                {% else %}
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#contact">Contact</a>
+                        <a class="nav-link text-white" href="{% url 'login' %}">Login</a>
                     </li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Hi, {{ user.username }}
-                            </a>
-                            <ul class="dropdown-menu" style="background-color: rgba(10, 25, 50, 0.9);">
-                                <li><a class="dropdown-item text-white" href="{% url 'logout' %}">Logout</a></li>
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{% url 'login' %}">Login</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+                {% endif %}
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
+
+<!-- Pro Checker Modal -->
+<div class="modal fade" id="proCheckerModal" tabindex="-1" aria-labelledby="proCheckerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-80w">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="proCheckerModalLabel">Choose Your Plan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid container-80w">
+                    <div class="row">
+                        <!-- Free Plan -->
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    Free Plan - <span class="text-success">$0</span>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Basic Features</h5>
+                                    <p class="card-text">
+                                        - <strong>Basic Resume Formatting Check</strong> to spot common errors.<br>
+                                        - <strong>Grammar and Spelling Review</strong> to catch typos and basic mistakes.<br>
+                                        - <strong>Keyword Presence Check</strong> to ensure industry relevance and ATS compliance.<br>
+                                        - <strong>Compatibility Score</strong> to gauge how well your resume meets common ATS criteria.<br>
+                                        - <strong>Email Support</strong> to resolve any issues.<br>
+                                        - <strong>Basic Guidance</strong> on resume improvements and key insights.
+                                    </p>
+                                    <a href="#" class="btn btn-primary" style="color: white;">Get Started</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pro Plan -->
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    Pro Plan - <span class="text-success">$10</span>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Advanced Features</h5>
+                                    <p class="card-text">
+                                        - <strong>Detailed ATS Analysis</strong> with tailored feedback and scores for key resume sections.<br>
+                                        - <strong>Custom Recommendations</strong> for improving layout, structure, and visual presentation.<br>
+                                        - <strong>Skill Match Assessment</strong> based on your target job roles and keywords.<br>
+                                        - <strong>PDF Report Download</strong> with a detailed breakdown of improvements and next steps.<br>
+                                        - <strong>Priority Email Support</strong> for quick help and advice.<br>
+                                        - <strong>Personalized Keyword Insights</strong> to optimize your resume based on trending keywords.
+                                    </p>
+                                    <a href="#" class="btn btn-success">Upgrade Now</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Premium Plan -->
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    Premium Plan - <span class="text-success">$30</span>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">All Features Unlocked</h5>
+                                    <p class="card-text">
+                                        - <strong>AI-Powered Resume Optimization</strong> for personalized and data-driven resume improvements.<br>
+                                        - <strong>Job-Specific Tailoring</strong> to automatically align your resume with specific job postings.<br>
+                                        - <strong>Competitor Analysis</strong> to compare your resume against similar applicants.<br>
+                                        - <strong>Access to Dedicated Support</strong> with expert review and feedback from career professionals.<br>
+                                        - <strong>Unlimited Edits and Downloads</strong> to refine and perfect your resume as needed.<br>
+                                        - <strong>Profile Building Assistance</strong> to help you strengthen your overall professional profile.
+                                    </p>
+                                    <a href="#" class="btn btn-warning">Get Premium</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- End Row -->
+                </div> <!-- End Container -->
+            </div> <!-- End Modal Body -->
+        </div> <!-- End Modal Content -->
+    </div> <!-- End Modal Dialog -->
+</div> <!-- End Modal -->
+
+
 
     <!-- File Upload Section -->
     <div id="upload-section">
@@ -190,7 +486,7 @@
         </form>
 
         {% if ats_score %}
-            <h3 class="section-title">Your ATS Score: {{ ats_score }} / 100</h3>
+        <h3 class="section-title">Your ATS Score: {{ ats_score }} / 100</h3>
         {% endif %}
     </div>
 
@@ -208,14 +504,12 @@
                 setTimeout(() => {
                     progressBar.style.width = '100%';
                 }, 100);
-
             } else {
                 fileNameDisplay.textContent = 'No file selected';
                 progressBar.style.width = '0%';
             }
         }
     </script>
-
 </body>
 
 </html>

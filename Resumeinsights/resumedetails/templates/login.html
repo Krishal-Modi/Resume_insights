@@ -88,6 +88,25 @@
             background-color: #009acd; /* Slightly darker blue on hover */
         }
 
+        .action-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 28px 0px 38px 0px;
+        }
+
+        .action-link {
+            color: #00E7ED;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .action-link img {
+            vertical-align: middle;
+            width: 15px;
+            height: 15px;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 600px) {
             .container {
@@ -101,15 +120,15 @@
             .btn {
                 font-size: 14px; /* Adjust button size for smaller screens */
             }
-        }
 
-        .back_to_login {
-            color: #00E7ED;
-            text-decoration: none;
-            font-size: 14px;
-            margin: 5%;
-            display: block;
-            text-align: right;
+            .action-links {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .action-link {
+                margin-top: 10px;
+            }
         }
 
         .message {
@@ -150,10 +169,11 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required placeholder=" " />
             </div>
-            <div class="login_redirect">
-                <a class="back_to_login" href="/register/">
-                    <img src="/static/images/up-arrow.png" alt="Back to Register" class="eye" width="20px" height="15px" id="eye">
-                    Back To Register
+            <div class="action-links">
+                <a class="action-link" href="/forgot-password/">Forgot Password</a>
+                <a class="action-link" href="/register/">
+                    Back to Register
+                    <img src="/static/images/up-arrow.png" alt="Back to Register" class="eye" id="eye">
                 </a>
             </div>
             <button type="submit" class="btn">Login</button>
@@ -161,26 +181,18 @@
     </div>
     <script>
         document.querySelectorAll('input').forEach(input => {
-    input.addEventListener('focus', function() {
-        this.classList.add('active');
-    });
+            input.addEventListener('focus', function() {
+                this.classList.add('active');
+                this.style.transform = 'translateZ(10px)';
+            });
 
-    input.addEventListener('blur', function() {
-        if (this.value === '') {
-            this.classList.remove('active');
-        }
-    });
-
-    // Add a 3D effect on focus
-    input.addEventListener('focus', function() {
-        this.style.transform = 'translateZ(10px)';
-    });
-
-    input.addEventListener('blur', function() {
-        this.style.transform = 'translateZ(0)';
-    });
-});
-
+            input.addEventListener('blur', function() {
+                if (this.value === '') {
+                    this.classList.remove('active');
+                }
+                this.style.transform = 'translateZ(0)';
+            });
+        });
     </script>
 </body>
 </html>

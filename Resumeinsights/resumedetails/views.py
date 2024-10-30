@@ -13,6 +13,11 @@ import os
 from pathlib import Path
 import urllib.parse
 import PyPDF2
+
+
+from django.core.mail import send_mail
+from django.conf import settings
+
 # Create your views here.
 
 def home(request):
@@ -41,9 +46,20 @@ def register(request):
                 birth_date=birth_date
             )
             messages.success(request, 'Account created successfully')
+
+            # Send email upon successful registration
+            send_mail(
+                subject='Welcome to Resume Insights',
+                message=f'Hi {username},\n\nThank you for registering at Resume Insights!',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[email],
+                fail_silently=False,
+            )
+
             return redirect('login')
 
     return render(request, 'register.html')
+
 
 
 
@@ -74,14 +90,33 @@ def user_logout(request):
 
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+import os
+import re
+import urllib.parse
+import PyPDF2
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.shortcuts import render, redirect
+from django.views.decorators.clickjacking import xframe_options_exempt
+from pathlib import Path
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Helper function to get file extension
 def get_file_extension(file_name):
     return os.path.splitext(file_name)[1].lower()
 
+# Function to extract email from text
+def extract_email(text):
+    email_pattern = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+    match = re.search(email_pattern, text)
+    return match.group(0) if match else None
 
+# Function to extract phone number from text
+def extract_phone_number(text):
+    phone_pattern = r'\+?\d[\d -]{8,}\d'  # Regex for matching phone numbers
+    match = re.search(phone_pattern, text)
+    return match.group(0) if match else None
 
 # View to handle file upload
 @xframe_options_exempt
@@ -107,9 +142,7 @@ def upload_resume(request):
     
     return render(request, 'upload.html', context)
 
-
-
-# Function to check if the uploaded resume is ATS-friendly
+# Function to check if the uploaded resume is ATS-friendly and extract email and phone number
 def is_ats_friendly(url, name):
     # Construct the full path to the file in the 'uploads' folder
     absolute_url = os.path.join(settings.BASE_DIR, 'uploads', name)
@@ -136,9 +169,11 @@ def is_ats_friendly(url, name):
         else:
             missing.append(i)
 
-    return rating, missing
+    # Extract email address and phone number
+    email_address = extract_email(text_content)
+    phone_number = extract_phone_number(text_content)
 
-
+    return rating, missing, email_address, phone_number  # Return phone number along with rating and missing keywords
 
 # View to handle ATS analysis and show results
 def analyzer(request):
@@ -147,13 +182,20 @@ def analyzer(request):
     name = request.session.get('name')
 
     # Perform ATS analysis
-    rating, missing = is_ats_friendly(url, name)
+    rating, missing, email_address, phone_number = is_ats_friendly(url, name)
 
     # Prepare context for result display
     context = {
         'url': request.session.get('url'),
         'rating': rating,
-        'missing': missing
+        'missing': missing,
+        'email_address': email_address,  # Include email address in context
+        'phone_number': phone_number      # Include phone number in context
     }
     
     return render(request, 'ats.html', context)  # Render ATS result page
+
+
+
+def payment(request):
+    return render(request, 'payment.html')
