@@ -607,7 +607,11 @@ footer {
                     <a class="nav-link active text-white" aria-current="page" href="/home/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="/upload/">ATS Score</a>
+                    {% if request.user.is_authenticated %}
+                        <a class="nav-link text-white" href="/upload/">ATS Score</a>
+                    {% else %}
+                        <a class="nav-link text-white" href="#" onclick="loginFirst()">ATS Score</a>
+                    {% endif %}
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -641,7 +645,7 @@ footer {
                                 <a href="#" class="btn btn-warning">Forgot Password</a>
                                 <br>
                                 <a href="{% url 'logout' %}" class="btn btn-danger mt-2">Logout</a>
-                                <a href="#" class="btn btn-danger mt-2">Delete Account</a>
+                                <a href="#" onclick="confirmDelete()" class="btn btn-danger mt-2">Delete Account</a>
                             </div>
                         </div>
                     </li>
@@ -682,7 +686,11 @@ footer {
                                         - <strong>Email Support</strong> to resolve any issues.<br>
                                         - <strong>Basic Guidance</strong> on resume improvements and key insights.
                                     </p>
-                                    <a href="#" class="btn btn-primary" style="color: white;">Get Started</a>
+                                    {% if request.user.is_authenticated %}
+                                        <a href="/upload/" class="btn btn-primary" style="color: white;">Get Started</a>
+                                    {% else %}
+                                        <a href="#" class="btn btn-primary" style="color: white;" onclick="loginFirst()">Get Started</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -703,7 +711,11 @@ footer {
                                         - <strong>Priority Email Support</strong> for quick help and advice.<br>
                                         - <strong>Personalized Keyword Insights</strong> to optimize your resume based on trending keywords.
                                     </p>
-                                    <a href="#" class="btn btn-success">Upgrade Now</a>
+                                    {% if request.user.is_authenticated %}
+                                        <a href="/payment/" class="btn btn-success" style="color: white;">Upgrade now</a>
+                                    {% else %}
+                                        <a href="#" class="btn btn-success" style="color: white;" onclick="loginFirst1()">Upgrade now</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -724,7 +736,11 @@ footer {
                                         - <strong>Unlimited Edits and Downloads</strong> to refine and perfect your resume as needed.<br>
                                         - <strong>Profile Building Assistance</strong> to help you strengthen your overall professional profile.
                                     </p>
-                                    <a href="#" class="btn btn-warning">Get Premium</a>
+                                    {% if request.user.is_authenticated %}
+                                        <a href="/payment/" class="btn btn-warning" style="color: white;">Get Premium</a>
+                                    {% else %}
+                                        <a href="#" class="btn btn-warning" style="color: white;" onclick="loginFirst1()">Get Premium</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -744,7 +760,11 @@ footer {
                 <p>Your resume is the first impression for employers. An ATS-friendly resume boosts your chances of an interview.</p>
                 <p>Our AI analyzes your resume, providing an ATS score and improvement suggestions to match job standards.</p>
                 <p>Join us to extract insights and craft a compelling narrative that stands out in a competitive job market.</p>
-                <a href="/upload/" class="landing_button">Calculate Score</a>
+                {% if request.user.is_authenticated %}
+                    <a href="/upload/" class="landing_button">Calculate Score</a>
+                {% else %}                
+                    <a href="#" class="landing_button" onclick="loginFirst()">Calculate Score</a>
+                {% endif %}
             </div>
             <div class="col-md-6">
                 <img src="/static/images/landingphoto.png" alt="Desktop" class="img-fluid rounded shadow" style="max-width: 110%; height: auto;">
@@ -783,7 +803,11 @@ footer {
 
             <!-- Centered button container -->
             <div class="button-container">
-                <a href="/upload/" class="landing_button" id="tryNowButton">Try It Now</a>
+                {% if request.user.is_authenticated %}
+                    <a href="/upload/" class="landing_button" id="tryNowButton">Try It Now</a>
+                {% else %}
+                    <a href="#" class="landing_button" id="tryNowButton" onclick="loginFirst()">Try It Now</a>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -874,7 +898,109 @@ footer {
                 progressBar.style.width = '0'; // Reset the progress bar
             }
         }
-    
+
+
+        
+        
+
+
+        // Show the custom alert
+function loginFirst() {
+    // Create overlay element
+    const overlay = document.createElement('div');
+    overlay.id = 'overlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    overlay.style.zIndex = '999';
+
+    // Create alert box element
+    const alertBox = document.createElement('div');
+    alertBox.id = 'loginAlert';
+    alertBox.style.position = 'fixed';
+    alertBox.style.top = '50%';
+    alertBox.style.left = '50%';
+    alertBox.style.transform = 'translate(-50%, -50%)';
+    alertBox.style.backgroundColor = 'rgba(10, 25, 50, 0.9)';
+    alertBox.style.color = '#ffffff';
+    alertBox.style.padding = '20px';
+    alertBox.style.borderRadius = '10px';
+    alertBox.style.fontFamily = 'Arial, sans-serif';
+    alertBox.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+    alertBox.style.textAlign = 'center';
+    alertBox.style.zIndex = '1000';
+
+    // Add alert message
+    const message = document.createElement('p');
+    message.textContent = 'Please login to access this feature.';
+    alertBox.appendChild(message);
+
+    // Create close button
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'Close';
+    closeButton.style.backgroundColor = '#00E7ED';
+    closeButton.style.color = '#ffffff';
+    closeButton.style.border = 'none';
+    closeButton.style.borderRadius = '5px';
+    closeButton.style.padding = '5px 10px';
+    closeButton.style.marginTop = '10px';
+    closeButton.style.cursor = 'pointer';
+
+    // Add hover effect to the close button
+    closeButton.onmouseover = function () {
+        closeButton.style.backgroundColor = '#009acd';
+    };
+    closeButton.onmouseout = function () {
+        closeButton.style.backgroundColor = '#00E7ED';
+    };
+
+    // Close alert on button click
+    closeButton.onclick = function () {
+        document.body.removeChild(alertBox);
+        document.body.removeChild(overlay);
+    };
+
+    alertBox.appendChild(closeButton);
+
+    // Append overlay and alert box to the body
+    document.body.appendChild(overlay);
+    document.body.appendChild(alertBox);
+}
+
+
+
+
+
+
+
+function loginFirst1() {
+    // Create overlay element
+    alert("Please login to access this feature.");
+}
+
+
+
+function confirmDelete() {
+    if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+        fetch("{% url 'delete_account' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            }
+        }).then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;  // Redirects after account deletion
+            }
+        });
+    }
+}
+
+
+
+
         document.getElementById('resumeUpload').addEventListener('change', updateFileName);
     </script>
 </body>

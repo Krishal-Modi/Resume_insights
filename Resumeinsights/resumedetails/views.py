@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 import urllib.parse
 import PyPDF2
+from django.http import HttpResponseForbidden
+from django.contrib.auth.decorators import login_required
 
 
 from django.core.mail import send_mail
@@ -88,6 +90,16 @@ def user_logout(request):
     return redirect('index')
 
 
+@login_required
+def delete_account(request):
+    if request.method == "POST":
+        user = request.user
+        user.delete()
+        logout(request)
+        messages.success(request, "Your account has been deleted successfully.")
+        return redirect("home")  # Redirect to the home page or another page after deletion
+    return HttpResponseForbidden("Account deletion is only allowed through POST request.")
+
 
 
 import os
@@ -99,6 +111,7 @@ from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from django.views.decorators.clickjacking import xframe_options_exempt
 from pathlib import Path
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -147,7 +160,7 @@ def is_ats_friendly(url, name):
     # Construct the full path to the file in the 'uploads' folder
     absolute_url = os.path.join(settings.BASE_DIR, 'uploads', name)
 
-    keyword = ['skills', 'education', 'certifications', 'experience', 'projects', 'awards', 'linkedin', 'languages']
+    keyword = ['skills', 'education', 'certifications', 'experience', 'projects', 'awards', 'linkedin', 'languages', 'courses', 'portfolio']
     missing = []
     rating = 0
     text_content = ""

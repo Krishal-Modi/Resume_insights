@@ -33,6 +33,8 @@ urlpatterns = [
 
     path('logout/', user_logout, name='logout'),
 
+    path("delete_account/", delete_account, name="delete_account"),
+
     path('upload/', upload_resume, name='upload_resume'),
     
     path('analyze/', analyzer, name='analyzer'),
